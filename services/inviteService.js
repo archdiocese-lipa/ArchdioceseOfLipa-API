@@ -20,7 +20,7 @@ const sendInviteEmail = async (email, token, inviterName) => {
 
   try {
     const response = await resend.emails.send({
-      from: "noreply@portal.saintlaurence.org.uk",
+      from: "noreply@togather.app",
       to: email,
       subject: "Invite",
       html: `<p>You have been invited to join <strong>${inviterName}</strong>'s family account. Click the link below to accept the invitation:</p>
