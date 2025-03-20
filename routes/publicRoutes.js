@@ -19,7 +19,7 @@ router.get("/accept-invite", (req, res) => {
     }
 
     // Get frontend URL from env or use default
-    const frontendUrl = "https://togather.app";
+    const frontendUrl = "https://archdioceseoflipa.togather.app";
     // "https://togatherinv1.vercel.app" || "https://localhost:5173";
     const redirectUrl = `${frontendUrl}/accept-invite?token=${encodeURIComponent(
       token
