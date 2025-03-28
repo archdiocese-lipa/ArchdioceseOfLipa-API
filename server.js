@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const announcementRoutes = require("./routes/announcementRoutes");
 const inviteRoutes = require("./routes/invite");
 const publicRoutes = require("./routes/publicRoutes");
 const authMiddleware = require("./middleware/auth");
@@ -37,12 +38,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
+// payload limit for file uploads
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 // Routes
 app.use("/", publicRoutes);
 app.use("/accept-invite", publicRoutes);
 app.use("/invite", authMiddleware, inviteRoutes);
+app.use("/api/announcements", announcementRoutes); // Add announcement routes
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
