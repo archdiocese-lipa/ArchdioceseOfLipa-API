@@ -25,12 +25,14 @@ const createAnnouncements = async ({ data, userId, groupId }) => {
   if (data.files && data.files.length > 0) {
     await Promise.all(
       data.files.map(async (file) => {
-        const fileName = `${file.name.split(".")[0]}-${Date.now()}`;
-        const fileExt = file.name.split(".")[1];
+        const fileName = `${file.originalname.split(".")[0]}-${Date.now()}`;
+        const fileExt = file.originalname.split(".")[1];
 
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from("Uroboros")
-          .upload(`announcement/${fileName}.${fileExt}`, file);
+          .upload(`announcement/${fileName}.png`, file.buffer, {
+            contentType: file.mimetype,
+          });
 
         if (uploadError) {
           throw new Error(`Error uploading file: ${uploadError.message}`);
@@ -39,7 +41,7 @@ const createAnnouncements = async ({ data, userId, groupId }) => {
         fileData.push({
           url: uploadData.path,
           name: fileName,
-          type: file.type,
+          type: file.mimetype,
         });
       })
     );
@@ -162,7 +164,7 @@ async function sendAnnouncementEmailToUsers(
         await resend.emails.send({
           from: "noreply@togather.app",
           to: user.email,
-          subject: `New Announcement: ${title}`,
+          subject: `On behalf of the Archdiocese of Lipa: ${title}`,
           html: htmlContent,
         });
         console.log(`Email sent to ${user.email}`);

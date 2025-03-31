@@ -48,10 +48,13 @@ router.post("/", authMiddleware, upload.array("files"), async (req, res) => {
             const { Readable } = require("stream");
             return Readable.from(file.buffer);
           };
+          // const fileURI = Buffer.from(file.buffer).toString("base64");
+          // const dataURI = `data:${file.mimetype};base64,${fileURI}`;
 
-          return fileObj;
+          return file;
         })
       : [];
+    console.log(files);
 
     const data = {
       title,
