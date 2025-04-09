@@ -162,9 +162,9 @@ async function sendAnnouncementEmailToUsers(
     users.map(async (user) => {
       try {
         await resend.emails.send({
-          from: "noreply@togather.app",
+          from: "On behalf of the Archdiocese of Lipa <archdioceseoflipa@togather.app>",
           to: user.email,
-          subject: `On behalf of the Archdiocese of Lipa: ${title}`,
+          subject: title,
           html: htmlContent,
         });
         console.log(`Email sent to ${user.email}`);
